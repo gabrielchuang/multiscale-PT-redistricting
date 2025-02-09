@@ -35,7 +35,7 @@ for identifier in ARGS
 
     input_dir = joinpath("..", "output", identifier*"_districts")
     output_dir=joinpath("..", "output", identifier*"_observables") 
-    pct_graph_path = joinpath("..", "test_graphs", "8x8pct.json")
+    pct_graph_path = joinpath("..", "test_graphs", "16x16pct.json")
 
     print("Reading from:\t", input_dir,"\n")
     print("Writing to:\t", output_dir,"\n"); flush(stdout)

@@ -1,4 +1,4 @@
-# Multiscale Parallel Tempering Sampler for Redistricting Plans.
+# Multiscale Parallel Tempering Sampler for Redistricting
 
 This codebase implements the sampling algorithm from [Multiscale Parallel Tempering for Fast Sampling on Redistricting Plans](https://arxiv.org/abs/2401.17455). 
 
