@@ -73,9 +73,6 @@ export AbstractGraph,
     graph_subset_by_cty,
 
     # single node flip and multistep single node flip
-    multistep_SNF, 
-    construct_county_split_graph, 
-    single_node_flip2,
     run_metropolis_hastings_SNF!,
     accept_SNF!,
 
@@ -86,9 +83,6 @@ export AbstractGraph,
     mask_intersection,
     mask_union,  
     clean_mask!, 
-
-    # dynamic hierarchies 
-    expand_hierarchy!, 
 
     # constraints
     initialize_constraints,
@@ -230,7 +224,6 @@ include("./constraint_types.jl")
 
 include("./utils.jl")
 include("./multi_level_graph.jl")
-include("./expand_hierarchy.jl")
 include("./multi_level_partition.jl")
 
 include("./energy_types.jl")
@@ -246,7 +239,6 @@ include("./single_node_flip.jl")
 include("./mcmc.jl")
 include("./constraints.jl")
 
-include("./multistep_SNF.jl")
 include("./chain.jl")
 include("./parallel_tempering.jl")
 
