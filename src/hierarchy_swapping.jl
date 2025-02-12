@@ -102,7 +102,7 @@ function get_valid_splits_pair_tempered(
             new_fine_balance = pop_balance(fine_partition.dist_populations, fine_min, fine_max) 
             new_coarse_balance = pop_balance(fine_partition.dist_populations, coarse_min, coarse_max) 
 
-            if new_fine_balance <= balance_limit && new_coarse_balance == 0
+            if (new_fine_balance <= balance_limit || isapprox(new_fine_balance, balance_limit)) && new_coarse_balance == 0
                 flip_iso = iso_if_you_flipped(fine_partition, node_ID, d1, d2)
                 if iso_limit === nothing || flip_iso <= iso_limit    
                     weight = exp(-beta*(flip_iso - og_iso))
@@ -204,7 +204,7 @@ function get_valid_merges_pair(
             new_coarse_balance = pop_balance(partition.dist_populations, coarse_min, coarse_max) 
             partition.dist_populations[d1] += npop
             partition.dist_populations[d2] -= npop
-            if new_fine_balance <= balance_limit && new_coarse_balance == 0
+            if (new_fine_balance <= balance_limit || isapprox(new_fine_balance, balance_limit)) && new_coarse_balance == 0
                 push!(this_node_valid_moves, (n1, d1, d2, iso_if_you_flipped(partition, n1, d1, d2) ))
             end
         end    
@@ -218,7 +218,7 @@ function get_valid_merges_pair(
             partition.dist_populations[d1] -= npop
             partition.dist_populations[d2] += npop
 
-            if new_fine_balance <= balance_limit && new_coarse_balance == 0
+            if (new_fine_balance <= balance_limit || isapprox(new_fine_balance, balance_limit)) && new_coarse_balance == 0
                 push!(this_node_valid_moves, (n2, d2, d1, iso_if_you_flipped(partition, n2, d2, d1)))
             end
         end
@@ -274,9 +274,9 @@ function swap_up(f2c_partition::MultiLevelPartition, TH::TemperingHierarchy, fnr
     log_p = 0
 
     for _ = 1:num_steps_to_take
-        @assert pop_balance(f2c_partition.dist_populations, fine_min, fine_max) <= f2c_balance_limit
         @assert pop_balance(f2c_partition.dist_populations, coarse_min, coarse_max) == 0
-      
+        @assert ((pop_balance(f2c_partition.dist_populations, fine_min, fine_max) <= f2c_balance_limit) ||
+            (pop_balance(f2c_partition.dist_populations, fine_min, fine_max) ≈ f2c_balance_limit))
         f2c_balance_limit += balance_limit_step_size
         #@show f2c_balance_limit
         merges = get_valid_merges_pair(G_fnr, G_csr, f2c_partition, fine_min, fine_max, coarse_min, coarse_max, 
@@ -332,7 +332,8 @@ function swap_down(c2f_partition::MultiLevelPartition, TH::TemperingHierarchy, f
     end
 
     for _ = 1:num_steps_to_take
-        @assert pop_balance(c2f_partition.dist_populations, fine_min, fine_max) <= c2f_balance_limit
+        @assert ((pop_balance(c2f_partition.dist_populations, fine_min, fine_max) <= c2f_balance_limit) ||
+            (pop_balance(c2f_partition.dist_populations, fine_min, fine_max) ≈ c2f_balance_limit))
         @assert pop_balance(c2f_partition.dist_populations, coarse_min, coarse_max) == 0
       
         c2f_balance_limit -= balance_limit_step_size 
