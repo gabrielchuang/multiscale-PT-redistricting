@@ -9,7 +9,7 @@ using MultiScaleMapSampler
 using JSON, CSV, Test, Random, RandomNumbers, TickTock, Dates
 
 ## ==== LOAD THE GRAPH ==== 
-n = 16
+n = 8
 G_json = joinpath("..","test_graphs", "$(n)x$(n)pct.json")
 G_node_data = Set(["county", "pct", "pop", "area", "border_length", "id"])
 G_base_graph = BaseGraph(G_json, "pop", inc_node_data=G_node_data,
@@ -23,8 +23,8 @@ oriented_nbrs = JSON.parsefile("../test_graphs/$(n)x$(n)pct_oriented_nbrs.json")
 oriented_nbrs = Dict{GlobalID, Vector{GlobalID}}([parse(Int, k) => v for (k,v) in oriented_nbrs]);
 
 ## ==== LOAD THE HIERARCHY ====
-filename_prefix = "../test_graphs/$(n)x$(n)TH_5/tempered_hierarchy_"
-TH = TemperingHierarchy(G, filename_prefix, 9);
+filename_prefix = "../test_graphs/$(n)x$(n)TH_3/tempered_hierarchy_"
+TH = TemperingHierarchy(G, filename_prefix, 5);
 num_levels = length(TH.graphs_by_level)
 num_dists = 4
 
@@ -92,9 +92,9 @@ for part_ID in 1:num_levels
 		100, constraints[t], rng, writer=writers[t], output_freq=100)
 end
 
-inner_steps = 10000 # NUMBER OF SWAP ATTEMPTS TO MAKE 
+inner_steps = 10 # NUMBER OF SWAP ATTEMPTS TO MAKE 
 
-println("total SNF steps: ", outer_steps*inner_steps*SNF_step_sizes[end], "; total PT flip attempts: ", outer_steps*inner_steps)
+println("total SNF steps: ", inner_steps*SNF_step_sizes[end], "; total PT flip attempts: ", inner_steps)
 
 total_steps_taken = Dict([x => 0 for x in 1:num_levels])
 
