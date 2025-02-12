@@ -35,7 +35,6 @@ export AbstractGraph,
     # forest recom mcmc 
     run_metropolis_hastings!, 
     build_forest_recom2, 
-    build_multistep_forest_recom2_2, 
 
     # partition utilities 
     write_partition_to_file,
@@ -72,7 +71,7 @@ export AbstractGraph,
     get_node_perimeter,
     graph_subset_by_cty,
 
-    # single node flip and multistep single node flip
+    # single node flip 
     run_metropolis_hastings_SNF!,
     accept_SNF!,
 
@@ -167,11 +166,6 @@ export AbstractGraph,
     iso_matching2,
     iso_matching3,
 
-    # parallel tempering 
-    parallel_tempering!, 
-    Chain, 
-    run_chain!, 
-    try_swap_replicas!,
     get_vra_score,
 
     # purely for testing 
@@ -234,13 +228,9 @@ include("./simple_writer.jl")
 
 include("./cuttable_tree.jl")
 include("./forest_recom2.jl")
-include("./multistep_forest_recom2.jl")
 include("./single_node_flip.jl")
 include("./mcmc.jl")
 include("./constraints.jl")
-
-include("./chain.jl")
-include("./parallel_tempering.jl")
 
 include("./polsby_popper.jl")
 include("./vap_frac.jl")
